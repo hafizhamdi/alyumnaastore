@@ -8,13 +8,65 @@ block content
     | Enjoyable profit by setting the inputs down here.
 
   br
-  form.ui.form(method='post', action='/products/new')
-    table
+  form
+    table(width="50%")
       tr
-        .field
+        td 
           label Cost
-          input(type='text', placeholder='Enter Cost', size='10')
+        td
+          input(id='cost', placeholder='RM')
       tr
-        .field
+        td 
           label Margin
-          input(type='text', placeholder='Enter Margin')
+        td
+          input(id='margin', placeholder='%')
+      tr
+        td 
+          label Markup
+        td
+          input(id='markup', placeholder='%')
+      tr
+        td 
+          label Revenue
+        td
+          input(id='revenue', placeholder='RM')
+      tr
+        td 
+          label Profit
+        td
+          input(id='profit', placeholder='RM')   
+    br
+    .ui.button(name="button", onclick="calc()")
+      | Calculate
+    button.ui.yellow.button(input type='reset')
+      | Clear  
+
+  script.
+    function calc(){
+
+      var p1,p2,p3,p4,p5;
+      p1 = document.getElementById('cost').value;
+      p2 = document.getElementById('margin').value;
+      p3 = document.getElementById('markup').value;
+      p4 = document.getElementById('revenue').value;
+      p5 = document.getElementById('profit').value;
+
+      var cost=0;
+      cost = p1;
+      var markup = 0;
+      markup = p3;
+      var profit = 0;
+      profit= p1*p3/100;
+      var revenue = 0;
+      revenue = parseInt(profit)+parseInt(cost);
+      var margin = 0;
+      margin = profit/revenue*100;
+
+      document.getElementById('cost').value=cost
+      document.getElementById('margin').value=margin;
+      document.getElementById('markup').value=markup;
+      document.getElementById('revenue').value=revenue;
+      document.getElementById('profit').value=profit;
+    }
+  
+  
