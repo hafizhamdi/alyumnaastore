@@ -1,0 +1,46 @@
+extends layout
+block content
+  h1= title
+  p You can modify any information here related to the product
+  form.ui.form(action='/products/update2/'+products[0].id method='POST')
+    .field
+      label Product Code
+      input(type='text', name='id', value=products[0].id)
+    .field
+      label Product Details
+      input(type='text', name='name', value=products[0].name)
+    .field
+      label Quantity
+      input(type='number', name='quantity', value=products[0].quantity)
+    .field
+      label Price/Pcs (RM)
+      input(type='number', name='price', value='#{_.str.sprintf("%.2f",products[0].price)}' )
+
+    button.positive.ui.labeled.icon.button(id=products[0].id, type='submit' )
+      i.save.icon
+      | Save
+
+  script(type='text/javascript').
+    function confirm_update(id){
+      //method='POST'
+      // onclick="confirm_update('' + id + '')"
+      var p1 = $("[name=id]").val()
+      var p2 = $("[name=name]").val()
+      var p3 = $("[name=quantity]").val()
+      var p4 = $("[name=price]").val()
+
+      var x = confirm("Are you sure want to update?")
+      if(x == true){
+        $.ajax({
+            url: id,
+            type: 'POST',
+            success: function(result) {
+                location.href = '/products'
+              console.log("Im in update biebie")
+                // Do something with the result
+            }
+        });
+      }
+      console.log(x)
+      return x
+    } 

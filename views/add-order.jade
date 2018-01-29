@@ -1,0 +1,104 @@
+extends layout
+
+block content
+  h1= title
+  p For new Order, Click Add Item.
+
+  form.ui.form(id='add_form')
+    table.ui.compact.celled.definition.table.equal-width
+      thead.full-width
+        tr
+          th(width="5%") Product Code
+          th(width="20%") Product Name
+          th(width="5%") Qty
+          th(width="5%") Price
+      tbody
+        tr
+          td
+            select.ui.search.dropdown(name="product_id")
+              option(value='')
+              -each row in products
+                option(value=row.id, data-productname=row.name)=row.id
+                
+          td
+            input(type='text', name="product_name")
+          td
+            input(type='text', name="product_qty")
+          td
+            input(type='text', name="product_price")
+
+    .div(style="text-align: right")      
+      button.ui.yellow.button(input type='reset')
+        | Reset      
+      button.blue.ui.labeled.icon.button.add_form_field
+        i.plus.icon
+        | Add Item  
+  br
+  br
+  form.ui.form(method='post', action='/orders/new')
+    table.ui.compact.celled.definition.table
+      thead.full-width
+        tr
+          th No
+          th Product Code
+          th Product Name
+          th Qty
+          th Price  
+          th Action
+              
+      tbody.container1
+
+    .div(style="text-align: right")
+      button.positive.ui.labeled.icon.button(type='submit')
+        i.add.to.cart.icon
+        | Submit Order  
+
+  script(type='text/javascript').
+    $(document).ready(function() {
+      var max_fields      = 10;
+      var wrapper         = $("tbody.container1");
+      var add_button      = $(".add_form_field");
+
+
+      var x = 1;
+      $(add_button).click(function(e){    
+          e.preventDefault();
+
+          var p1 = $("[name=product_id]").val()
+          var p2 = $("[name=product_name]").val()
+          var p3 = $("[name=product_qty]").val()
+          var p4 = $("[name=product_price]").val()
+          
+          if(x < max_fields){
+                
+            //$(`[name=input[`+x+`]`).val(x)
+            console.log(x)    
+            var inputbox = `<tr><td><input type="text" size="1" name="no[`+x+`]" value="`+x+`"></td>
+            <td><input type="text" name="id[`+x+`]" value="`+p1+`"></td>
+            <td><input type="text" name="name[`+x+`]" value="`+p2+`"></td>
+            <td><input type="text" name="qty[`+x+`]" value="`+p3+`"></td>
+            <td><input type="text" name="price[`+x+`]" value="`+p4+`"></td>
+            <td><a href='#' class="delete">Delete</a></td></tr>` 
+            $(wrapper).append(inputbox)
+            x++;
+
+            // Reset form after add
+            document.getElementById("add_form").reset();
+          }
+          else
+          {
+          alert('You Reached the limits')
+          }
+      });
+
+      $(wrapper).on("click",".delete", function(e){
+            e.preventDefault(); $(this).closest('tr').remove(); x--;
+      })
+
+      $("[name=product_id]").on('change',function(){
+        var a=$(this).val()
+        var pn=$("[name=product_id] [value='"+a+"']").data("productname")
+        $("[name=product_name]").val(pn)  
+        console.log(pn)
+      })
+    });

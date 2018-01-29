@@ -1,0 +1,49 @@
+extends layout
+
+block content
+  h1= title
+  p You can see all #{title}.
+
+  button.positive.ui.labeled.icon.button(id="button")
+    i.plus.icon
+    | Create Order
+
+  br
+  br
+  table.ui.small.celled.table
+    thead
+      tr
+        th(width='2%') No.
+        th(width='10%') Item Code
+        th(width='30%') Item Name
+        th(width='10%').center.aligned Date
+        th(width='10%').center.aligned Time
+        th(width='10%').center.aligned Quantity
+        th(width='10%').right.aligned Total
+    tbody
+      -var n=1
+      -each row in orders
+        tr
+          td=n++
+          td=row.product_id
+          td=row.name
+          td.center.aligned=row.date
+          td.center.aligned=row.time
+          td.center.aligned=row.quantity
+          td.right.aligned #{_.str.sprintf("%.2f",row.total)}            
+    tfoot
+      -var totQty=0
+      -var totPrc=0.0
+      -var totAll=0.0
+      -each row in orders
+        - totQty += row.quantity
+        - totPrc += row.total
+      tr
+        th.center.aligned(colspan='5') Total
+        th.center.aligned=totQty
+        th.right.aligned #{_.str.sprintf("%.2f",totPrc)}
+  script.
+    //href="/orders/new/", onclick='location.reload(true); return false;'
+    document.getElementById("button").onclick = function() {
+      window.location = "/orders/new/";
+    }

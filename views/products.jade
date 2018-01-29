@@ -1,0 +1,78 @@
+extends layout
+
+block content
+  h1= title
+
+  h4 Alyumna Store the #1 best closet for Muslimin and Muslimat.
+
+  br
+  br
+  a.positive.ui.labeled.icon.button(href="./products/new/")
+    i.plus.icon
+    | New
+
+  br
+  h3 Available products
+  table.ui.small.celled.table
+    thead
+      tr
+        th(width="2%") No.
+        th(width="10%") Product Code
+        th(width="30%") Product Name
+        th(width="10%").center.aligned Date Inserted
+        th(width="10%").center.aligned Quantity
+        th(width="10%").right.aligned Price/Qty
+        th(width="10%").right.aligned Goods Cost
+        th(width="10%").center.aligned Action
+
+    tbody
+      -var n=1
+      -var num=0
+      -each row in products
+        -var num = (row.quantity*row.price)
+        tr
+          td=n++
+          td=row.id
+          td=row.name
+          td.center.aligned=row.date_add
+          td.center.aligned=row.quantity
+          td.right.aligned #{_.str.sprintf("%.2f",row.price)}
+          td.right.aligned #{_.str.sprintf("%.2f",num)}
+          td.center.aligned
+            .ui.buttons
+              a.ui.orange.button(id=row.id, href="./products/update/"+row.id) Update
+              .or
+              button.ui.red.button(id=row.id, onclick="confirm_delete('' + id + '')") Delete
+              
+    tfoot
+      -var totQty=0
+      -var totPrc=0.0
+      -var totAll=0.0
+      -each row in products
+        - totQty += row.quantity
+        - totPrc += row.price
+        - totAll += row.price*row.quantity
+      tr
+        th.center.aligned(colspan='4') Total
+        th.center.aligned=totQty
+        th.right.aligned #{_.str.sprintf("%.2f",totPrc)}
+        th.right.aligned #{_.str.sprintf("%.2f",totAll)}
+        th
+
+  script(type='text/javascript').
+    function confirm_delete(id){
+      var x = confirm("Are you sure want to delete?")
+      if(x == true){
+        $.ajax({
+            url: './products/delete/' +id,
+            type: 'DELETE',
+            success: function(result) {
+                location.href = './products'
+              console.log("Im in delete biebie")
+                // Do something with the result
+            }
+        });
+      }
+      console.log(x)
+      return x
+    } 

@@ -1,0 +1,20 @@
+extends layout
+
+block content
+  h1 #{title}
+  br
+  p(style='white-space:pre;')
+    | The way how to success on your bussiness. Calculate your margin and get your
+    | Enjoyable profit by setting the inputs down here.
+
+  br
+  form.ui.form(method='post', action='/products/new')
+    table
+      tr
+        .field
+          label Cost
+          input(type='text', placeholder='Enter Cost', size='10')
+      tr
+        .field
+          label Margin
+          input(type='text', placeholder='Enter Margin')

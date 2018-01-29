@@ -1,0 +1,67 @@
+extends layout
+
+block content
+  .div(style="text-align: center")
+    h1= title
+    p Welcome to #{title}
+
+  br
+  br
+  br
+  .ui.four.statistics
+    .ui.statistic
+      .value  
+        | #{data['table1'][0]['count1']}
+      .label
+        | Items Sold
+
+    .ui.statistic
+      .value
+        | #{data['table1'][0]['count2']}
+      .label
+        | Available Products
+
+    .ui.statistic
+      .value
+        | #{data['table1'][0]['qty']}
+      .label
+        | In Stocks    
+
+    .ui.statistic
+      .value
+        | 4,029
+      .label
+        | Profit
+
+  br
+  br
+  br 
+
+  .div(style="text-align: center")
+    h3 Total Earned In #{data['table2']['year']}
+    
+  canvas(id="earnedChart")
+  script.
+    var json = "#{data['table2'].info}";
+    var array = json.split(',');
+    var ctx = document.getElementById('earnedChart').getContext('2d');
+    var chart = new Chart(ctx, {
+        // The type of chart we want to create
+        type: 'bar',
+
+        // The data for our dataset
+        data: {
+            labels: ["Jan", "Feb", "Mar", "Apr", "May", "June", "July",
+            "Aug", "Sept", "Oct", "Nov", "Dec"],
+            datasets: [{
+                label: "Total Earned",
+                backgroundColor: 'rgb(255, 99, 132)',
+                borderColor: 'rgb(255, 99, 132)',
+                data: array,
+            }]
+        },
+
+        // Configuration options go here
+        options: {}
+    });
+
