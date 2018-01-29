@@ -42,7 +42,7 @@ router.get('/alyumna', function(req, res, next) {
         if (err) console.log(err);
         //res.json(data);
         res.render('index', 
-            { title: 'Alyumnaa Store Malaysia Ent.' , 
+            { title: 'Alyumnaa Collection Malaysia' , 
               data});
   });
 

@@ -8,7 +8,7 @@ router.get('/', function(req,res,next){
         if(err)
             res.json(err)
         else
-            res.render('products',{ title: 'Alyumnaa Store', products: rows})
+            res.render('products',{ title: 'Alyumnaa Collection', products: rows})
     })
 });
 

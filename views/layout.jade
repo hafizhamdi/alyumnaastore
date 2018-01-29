@@ -14,11 +14,10 @@ html
   -menu.MarginCalculator = '/margin';
 
   header
-    link(rel="icon", href="/images/brand.ico")
     title Alyumna Collection
-    .ui.left.fixed.vertical.menu
+    .ui.left.fixed.inverted.vertical.menu
       .item
-        img.ui.image(src='/images/brand.jpg')
+        img.ui.centered.image(src='/images/brand3.ico', width="128", height="128")
       each val, key in menu
         if selected === key
           a.item(href=val, title=key)= key
