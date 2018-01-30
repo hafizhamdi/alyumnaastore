@@ -3,6 +3,7 @@ var router = express.Router();
 var product = require('../models/products')
 var order = require('../models/orders')
 var async = require('async');
+var commaNumber = require('comma-number')
 
 /* GET home page. */
 router.get('/alyumna', function(req, res, next) {
@@ -13,7 +14,13 @@ router.get('/alyumna', function(req, res, next) {
     function(done) {
       order.getAllOrderProductCount(function(err, results) {
             if (err) return done(err);
-            data.table1 = results;
+            var x = {};
+            x.count1 = commaNumber(results[0]['count1']);
+            x.count2 = commaNumber(results[0]['count2'])
+            x.qty = commaNumber(results[0]['qty'])
+            x.total = commaNumber(results[0]['total'])
+
+            data.table1 = x;
             done();
         });
     },

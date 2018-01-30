@@ -11,27 +11,27 @@ block content
   .ui.four.statistics
     .ui.statistic
       .value  
-        | #{data['table1'][0]['count1']}
+        | #{data['table1']['count1']}
       .label
         | Items Sold
 
     .ui.statistic
       .value
-        | #{data['table1'][0]['count2']}
+        | #{data['table1']['count2']}
       .label
-        | Available Products
+        | Products
 
     .ui.statistic
       .value
-        | #{data['table1'][0]['qty']}
+        | #{data['table1']['qty']}
       .label
         | In Stocks    
 
     .ui.statistic
       .value
-        | 4,029
+        | #{data['table1']['total']}
       .label
-        | Profit
+        | Overall Earned
 
   br
   br

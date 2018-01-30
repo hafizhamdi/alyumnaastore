@@ -50,6 +50,22 @@ var Products = {
              Products.price,
              datetime, 
              id], callback);
+    },
+
+    updateProductQty : function(id, Product, callback){
+        var date = new Date();
+        var datetime = date.toLocaleDateString() + " " + 
+                       date.toLocaleTimeString();
+
+
+
+        console.log("idIN:" + id);               
+        console.log("quantity:" + Product.quantity);               
+
+        return db.query(`update products set quantity = quantity - ?, date_add=? WHERE id=?`,
+            [Product.quantity,
+             datetime, 
+             id], callback);
     }
 };
 

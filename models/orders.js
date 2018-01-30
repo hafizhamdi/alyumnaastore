@@ -6,7 +6,7 @@ var Orders = {
 
     getAllOrderProductCount : function(callback){
         return db.query(`SELECT  (
-            SELECT COUNT(*)
+            SELECT sum(quantity)
             FROM   orders
             ) AS count1,
             (
@@ -16,7 +16,11 @@ var Orders = {
             (
             SELECT SUM(quantity)
             FROM   products
-            ) AS qty
+            ) AS qty,
+            (
+            SELECT SUM(total)
+            FROM   orders
+            ) AS total
             FROM dual`, callback);
     },
 

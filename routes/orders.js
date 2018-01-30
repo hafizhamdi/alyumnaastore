@@ -2,7 +2,9 @@ var express = require('express');
 var router = express.Router();
 var Orders = require('../models/orders')
 var Products = require('../models/products')
+var async = require('async');
 var rowproduct;
+
 
 router.get('/', function(req,res,next){
     Orders.getAllOrders(function(err,rows){
@@ -43,7 +45,6 @@ router.post('/new', function(req,res,next){
     var count = Object.keys(object).length;
     
     var myarr = [];
-    var field = [];
     var i = 1;
     while(i<= (count/5)){
         data['no'] = object['no['+ i +']'];
@@ -56,7 +57,30 @@ router.post('/new', function(req,res,next){
         i++;
     }
 
-    var totcnt=0;
+    async.parallel([
+        function(done) {
+            for(var t = 0; t < myarr.length ;t++){  
+                Orders.addOrder(myarr[t], (function(err, data){
+                    if(err) return done(err);
+                }));
+            }
+            done();
+        },
+
+        function(done){
+            //update quantity product
+            for(var t = 0; t < myarr.length ;t++){
+                var id = myarr[t]['id'];
+                Products.updateProductQty(id, myarr[t],function(err,data){
+                    if(err) return done(err);
+                })
+            }
+            done();
+        }], function(err){
+            (err)? res.json(err):res.redirect('/orders'); 
+    });
+              
+  /*  var totcnt=0;
     for(var t = 0; t < myarr.length ;t++){  
         Orders.addOrder(myarr[t], (function(err, data){
 
@@ -65,7 +89,13 @@ router.post('/new', function(req,res,next){
             }else{
                 var j = t;
                 return function(){
-                    ++totcnt;
+                    var id = myarr[j]['id'];
+                    Products.updateProductQty(id, myarr[j],function(err,data){
+                        (err)?res.json(err): ++totcnt; console.log("added 1")
+                        
+                    })    
+                    console.log(totcnt);    
+                    //++totcnt;
                     //code executed after all processing tasks has completed
                     if(totcnt==myarr.length){
                        res.redirect('/orders');     
@@ -73,7 +103,7 @@ router.post('/new', function(req,res,next){
                 }
             }
         })());         
-    }
+    }*/
 
 }); 
 //});
