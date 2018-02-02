@@ -2,19 +2,13 @@ extends layout
 
 block content
   .div(style="text-align: center")
-    h1= title
+    h1 #{title} &reg;
     p Closet Store for Muslimin/Muslimat remembering Allah SWT, The Almighty. 
 
   br
   br
   br
   .ui.four.statistics
-    .ui.statistic
-      .value  
-        | #{data['table1']['count1']}
-      .label
-        | Items Sold
-
     .ui.statistic
       .value
         | #{data['table1']['count2']}
@@ -25,7 +19,13 @@ block content
       .value
         | #{data['table1']['qty']}
       .label
-        | In Stocks    
+        | In Stocks 
+
+     .ui.statistic
+      .value  
+        | #{data['table1']['count1']}
+      .label
+        | Items Sold     
 
     .ui.statistic
       .value
