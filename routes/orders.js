@@ -36,7 +36,11 @@ router.get('/id/:id', function(req,res,next){
     })
 });
 
-
+router.delete('/delete/:id', function(req,res,next){
+    Orders.deleteOrder(req.params.id, function(err, rows){
+        (err)?res.json(err) :  res.json('/orders')
+    })  
+});
 
 router.post('/new', function(req,res,next){
     
@@ -60,8 +64,9 @@ router.post('/new', function(req,res,next){
     async.parallel([
         function(done) {
             for(var t = 0; t < myarr.length ;t++){  
+                console.log(myarr[t]);
                 Orders.addOrder(myarr[t], (function(err, data){
-                    if(err) return done(err);
+                    if(err) res.json(err);
                 }));
             }
             done();
@@ -72,7 +77,7 @@ router.post('/new', function(req,res,next){
             for(var t = 0; t < myarr.length ;t++){
                 var id = myarr[t]['id'];
                 Products.updateProductQty(id, myarr[t],function(err,data){
-                    if(err) return done(err);
+                    if(err) res.json(err);
                 })
             }
             done();

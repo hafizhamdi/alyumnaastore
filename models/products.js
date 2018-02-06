@@ -34,8 +34,6 @@ var Products = {
         var date = new Date();
         var datetime = date.toLocaleDateString() + " " + 
                        date.toLocaleTimeString();
-        console.log('Im in update.. ikick u');
-
         console.log("name:" + Products.name + "\n" +
                 "quantity:" + Products.quantity + "\n"+
                 "price:" + Products.price + "\n"+

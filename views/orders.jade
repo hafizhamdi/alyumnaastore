@@ -21,6 +21,7 @@ block content
         th(width='10%').center.aligned Time
         th(width='10%').center.aligned Quantity
         th(width='10%').right.aligned Total
+        th(width='5%').center.aligned Action
     tbody
       -var n=1
       -each row in orders
@@ -31,7 +32,9 @@ block content
           td.center.aligned=row.date
           td.center.aligned=row.time
           td.center.aligned=row.quantity
-          td.right.aligned #{_.str.sprintf("%.2f",row.total)}            
+          td.right.aligned #{_.str.sprintf("%.2f",row.total)}    
+          td.center.aligned
+            button.ui.red.button(id=row.time, onclick="confirm_delete('' + id + '')") Delete
     tfoot
       -var totQty=0
       -var totPrc=0.0
@@ -43,8 +46,23 @@ block content
         th.center.aligned(colspan='5') Total
         th.center.aligned=totQty
         th.right.aligned #{_.str.sprintf("%.2f",totPrc)}
+        th
   script.
     //href="/orders/new/", onclick='location.reload(true); return false;'
     document.getElementById("button").onclick = function() {
       window.location = "/orders/new/";
+    }
+
+    function confirm_delete(id){
+      var x = confirm("Are you sure want to delete?")
+      if(x == true){
+        $.ajax({
+            url: './orders/delete/' +id,
+            type: 'DELETE',
+            success: function(result) {
+                location.href = './orders'
+                // Do something with the result
+            }
+        });
+      }
     }

@@ -28,7 +28,7 @@ var Orders = {
         var now = new Date();
         var date = now.toLocaleDateString();
         var time = now.toLocaleTimeString();
-
+        console.log("add order is processing")
         return db.query(`INSERT INTO 
                     Orders (name, quantity, total, date, time, product_id) 
                     VALUES (?,?,?,?,?,?)`,
@@ -57,6 +57,10 @@ var Orders = {
                 FROM orders
                 GROUP BY YEAR(date), MONTH(date)
                 ORDER BY YEAR(date), MONTH(date)`, callback);
+    },
+
+    deleteOrder : function(id, callback){
+        return db.query("DELETE FROM orders WHERE time=?", [id], callback);
     }
 
 };
