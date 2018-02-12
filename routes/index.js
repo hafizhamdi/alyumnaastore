@@ -40,58 +40,44 @@ router.get('/alyumna', function(req, res, next) {
         order.getOrderDataByDate(function(err, results) {
             if (err) return done(err);
             var value = [];
-            var monthly = {};
-
+            var month = [0,0,0,0,0,0,0,0,0,0,0,0];
             console.log(results.length)
-            for(var i = 0; i<11; i++)
-            {
+            var i =0;
+            while(i<12){
                 try{
                     if(results[i]['Month'] == 1)
-                        value.push(results[i]['Total']);
-                    else
-                        value.push(0);    
+                        month.splice(0,1,results[i]['Total']);
                     if(results[i]['Month'] == 2)
-                        value.push(results[i]['Total']);
+                        month.splice(1,2,results[i]['Total']);    
                     if(results[i]['Month'] == 3)
-                        value.push(results[i]['Total']);            
+                        month.splice(2,3,results[i]['Total']);
                     if(results[i]['Month'] == 4)
-                        value.push(results[i]['Total']);            
+                        month.splice(3,4,results[i]['Total']);
                     if(results[i]['Month'] == 5)
-                        value.push(results[i]['Total']);            
+                        month.splice(4,5,results[i]['Total']);    
                     if(results[i]['Month'] == 6)
-                        value.push(results[i]['Total']);            
+                        month.splice(5,6,results[i]['Total']);
                     if(results[i]['Month'] == 7)
-                        value.push(results[i]['Total']);            
+                        month.splice(6,7,results[i]['Total']);
                     if(results[i]['Month'] == 8)
-                        value.push(results[i]['Total']);            
+                        month.splice(7,8,results[i]['Total']);    
                     if(results[i]['Month'] == 9)
-                        value.push(results[i]['Total']);            
+                        month.splice(8,9,results[i]['Total']);
                     if(results[i]['Month'] == 10)
-                        value.push(results[i]['Total']);            
+                        month.splice(9,10,results[i]['Total']);
                     if(results[i]['Month'] == 11)
-                        value.push(results[i]['Total']);            
+                        month.splice(10,11,results[i]['Total']);
                     if(results[i]['Month'] == 12)
-                        value.push(results[i]['Total']);            
-                    if(results[i]['Month'] == 13)
-                        value.push(results[i]['Total']);  
-                        
+                        month.splice(11,12,results[i]['Total']);   
                 }
-                catch(err){value.push(0);}        
-                /*if(i==0) value.push(0); //for jan
-                try{
-                    if(results[i]['Month'] == (2))
-                        value.push(results[i]['Total']);
-                    else
-                        value.push(results[i]['Total']);        
-                }
-                catch(err){
-                    value.push(0);    
-                }*/
+                catch(err){value.push(0);}   
+                i++;     
             }
             console.log(value)
+            console.log(month)
             var chart = {};
             chart.year = 2018; //results[0]['Year'];
-            chart.info = value;
+            chart.info = month;
             data.table2 = chart;
             done();
         });
